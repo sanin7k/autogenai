@@ -1,117 +1,144 @@
-# 🤖 AutogenAI
+# 🔮 autogenai
 
-**Unified, pluggable SDK for LLMs — OpenAI, Gemini, and more.**  
-Production-grade interface for integrating and abstracting multiple LLM providers via a clean Python API.
+**Unified SDK for LLMs like OpenAI and Gemini — Simple, Pluggable, and Ready for Production**
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-- ✅ Easy-to-use `chat()` interface for multiple LLMs
-- ✅ Supports **OpenAI** and **Gemini** out of the box
-- ✅ Built-in error handling (`LLMResponseError`)
-- ✅ Easily extendable for other providers (Claude, Mistral, Ollama, etc.)
-- ✅ Semantic versioning & PyPI-ready
+- 🧠 Unified interface for OpenAI & Gemini
+- 🛠️ Automatically loads from `.env` (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `LLM_ENGINE`, `DEFAULT_OPENAI_MODEL`, `DEFAULT_GEMINI_MODEL`)
+- 🚨 Built-in error handling: `APIMissingError`, `LLMResponseError`
+- 🧪 100% test coverage with `pytest`
+- 🔧 CLI included for quick interaction
+- 📦 PyPI-ready structure with semantic versioning
 
 ---
 
 ## 📦 Installation
 
-From PyPI (once released):
-
 ```bash
 pip install autogenai
-From TestPyPI (for testing pre-releases):
 
-bash
-Copy code
-pip install -i https://test.pypi.org/simple/ autogenai
-From GitHub (dev version):
+```
+Or, from source:
+```bash
+git clone https://github.com/yourusername/autogenai.git
+cd autogenai
+pip install .
+```
 
-bash
-Copy code
-pip install git+https://github.com/yourusername/autogenai.git
-🧠 Quick Start
-✅ OpenAI Example
-python
-Copy code
-from autogenai import OpenAIEngine
+## ⚙️ Configuration
 
-engine = OpenAIEngine(api_key="your-openai-api-key")
-response = engine.chat("Tell me a joke.")
+Create a .env file in your project root:
+```env
+# Required (one or both depending on engine used)
+OPENAI_API_KEY=your_openai_key
+GOOGLE_API_KEY=your_google_key
+
+# Optional engine & model settings
+LLM_ENGINE=openai  # or gemini
+DEFAULT_OPENAI_MODEL=gpt-3.5-turbo
+DEFAULT_GEMINI_MODEL=gemini-1.5-pro
+```
+If a required API key is missing, APIMissingError will be raised at runtime.
+
+## 🚀 Usage (Python)
+```python
+from autogenai.core.factory import LLMFactory
+
+engine = LLMFactory.create() # uses LLM_ENGINE from .env or defaults to Gemini
+response = engine.chat("Tell me a joke")
 print(response)
-✅ Gemini Example
-python
-Copy code
-from autogenai import GeminiEngine
 
-engine = GeminiEngine(api_key="your-gemini-api-key")
-response = engine.chat("What's the capital of Japan?")
-print(response)
-🧪 Advanced Usage
-✅ Injecting custom config
-python
-Copy code
-from autogenai import OpenAIEngine
+```
 
-engine = OpenAIEngine(
-    api_key="your-openai-api-key",
-    model="gpt-4",
-    system_prompt="You are a helpful assistant.",
-)
-✅ Error Handling
-python
-Copy code
-from autogenai.utils.errors import LLMResponseError
+## 🧪 Testing
 
-try:
-    engine.chat("Hello!")
-except LLMResponseError as e:
-    print(f"Request failed: {e}")
-    print("Status Code:", e.status_code)
-    print("Response Data:", e.response_data)
-🧩 Extending to Other LLMs
-You can subclass BaseEngine to support any provider:
+Run all tests:
 
-python
-Copy code
-from autogenai.core.base import BaseEngine
+```bash
+pytest
+```
+Includes mocks for external calls and full coverage for OpenAIEngine, GeminiEngine, and factory.
 
-class MyLLMEngine(BaseEngine):
-    def chat(self, prompt: str) -> str:
-        # Implement your own logic here
-        ...
-🔧 Project Structure
-bash
-Copy code
-autogenai/
-├── core/           # LLM engines (OpenAI, Gemini)
-├── utils/          # Error classes, config loading
-├── examples/       # Usage demos
-├── tests/          # Unit tests
+## 💻 CLI Usage
 
-📜 License
-This project is licensed under the MIT License.
+You can also use the SDK via command line:
+```bash
+autogenai chat "What's the capital of France?"
+```
 
-👨‍💻 Author
-Built with ❤️ by Sanin K
+Or for Gemini specifically:
 
-🧭 Roadmap
- CLI support (autogenai chat "hi")
+```bash
+autogenai chat "What's the capital of France?" --engine "gemini"
+```
 
- Add Claude / Mistral / Ollama adapters
+## 📂 Project Structure
 
- Async support with httpx.AsyncClient
+```bash
+autogenai-sdk/
+├── examples/
+│   ├── openai_chat.py
+│   ├── sdk_chat.py
+│   ├── sdk_cli.py
+│   └── simple_chat.py
+├── src/autogenai/
+│   ├── core/
+│   │   ├── base.py
+│   │   ├── factory.py
+│   │   ├── gemini_engine.py
+│   │   └── openai_engine.py
+│   ├── utils/
+│   │   ├── config.py
+│   │   ├── errors.py
+│   │   └── logger.py
+│   ├── cli.py
+│   └── tools.py
+├── tests/
+│   ├── test_factory.py
+│   └── test_openai.py
+├── .env
+├── README.md
+├── requirements.txt
+└── pyproject.toml
 
- Prompt templating
+```
 
- Streaming & function calling support
+## 📖 Error Handling
 
-📦 Changelog
-See CHANGELOG.md for version history.
+**APIMissingError**
 
-🐛 Contributing
-Pull requests are welcome! Please open an issue first to discuss major changes.
+Raised when API key is not found in .env.
+```python
+raise MissingAPIKeyError("Missing OpenAI API key.")
+```
 
-⭐ Star if you like it!
-If you find this useful, please star ⭐ the repo. It helps others discover it too!
+**LLMResponseError**
+
+Raised when the API responds with an error (like 429 or 401).
+```python
+raise LLMResponseError("API failed", status_code=429, response_data={...})
+
+```
+
+## 🔢 Semantic Versioning
+
+This SDK follows SemVer:
+- MAJOR – breaking changes
+- MINOR – new features, backward-compatible
+- PATCH – bug fixes
+
+Current version: 0.1.0
+
+## 🙌 Contributing
+
+1. Fork this repo
+2. Create your feature branch (git checkout -b feat/my-feature)
+3. Commit changes (git commit -am 'add cool feature')
+4. Push to branch (git push origin feat/my-feature)
+5. Open a pull request 🚀
+
+## 📝 License
+MIT © 2025 Sanin K
