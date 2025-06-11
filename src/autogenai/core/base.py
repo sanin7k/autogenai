@@ -15,6 +15,10 @@ class BaseLLM(ABC):
         pass
 
     @abstractmethod
+    def achat(self, prompt: str) -> str:
+        pass
+
+    @abstractmethod
     def summarize(self, text: str) -> str:
         """Summarize a long text"""
         pass
