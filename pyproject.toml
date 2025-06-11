@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autogenai"
+version = "0.1.0"
+description = "Unified SDK for OpenAI, Gemini and more"
+authors = [{ name="Sanin K", email="dev.sanink@gmail.com"}]
+dependencies = ["httpx", "python-dotenv"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
