@@ -1,12 +1,14 @@
 # 🔮 autogenai
 
-**Unified SDK for LLMs like OpenAI and Gemini — Simple, Pluggable, and Ready for Production**
+⚠️ This is an early-stage SDK. Interfaces and behaviors may change in minor releases.
+
+**Early-stage unified SDK for LLMs like OpenAI, Gemini and more. — Simple, Pluggable, and Ready for Production**
 
 ---
 
 ## ✨ Features
 
-- 🧠 Unified interface for OpenAI & Gemini
+- 🧠 Unified interface for LLMs (OpenAI, Gemini, etc.)
 - 🛠️ Automatically loads from `.env` (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `LLM_ENGINE`, `DEFAULT_OPENAI_MODEL`, `DEFAULT_GEMINI_MODEL`)
 - 🚨 Built-in error handling: `APIMissingError`, `LLMResponseError`
 - 🧪 100% test coverage with `pytest`
@@ -23,7 +25,7 @@ pip install autogenai
 ```
 Or, from source:
 ```bash
-git clone https://github.com/yourusername/autogenai.git
+git clone https://github.com/sanin7k/autogenai-sdk.git
 cd autogenai
 pip install .
 ```
@@ -36,7 +38,7 @@ Create a .env file in your project root:
 ```env
 # Required (one or both depending on engine used)
 OPENAI_API_KEY=your_openai_key
-GOOGLE_API_KEY=your_google_key
+GEMINI_API_KEY=your_google_key
 
 # Optional engine & model settings
 LLM_ENGINE=openai  # or gemini
@@ -159,4 +161,4 @@ Current version: 0.1.0
 ---
 
 ## 📝 License
-MIT © 2025 Sanin K
+MIT License © 2025 Sanin K
