@@ -1,18 +1,18 @@
 import httpx
-import os
 from autogenai.core.base import BaseLLM
 from autogenai.utils.logger import get_logger
-from dotenv import load_dotenv
+from autogenai.utils.config import get_env, DEFAULT_MODELS
+from autogenai.utils.errors import MissingAPIKeyError
 
-load_dotenv()
 logger = get_logger("OpenAIEngine")
 
 class OpenAIEngine(BaseLLM):
-    def __init__(self, api_key: str = None, model: str = "gpt-3.5-turbo"):
-        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("OpenAI API key not provided")
-        self.model = model
+    def __init__(self, model: str = None):
+        try:
+            self.api_key = get_env("OPENAI_API_KEY", required=True)
+        except EnvironmentError:
+            raise MissingAPIKeyError("OPEN_API_KEY is required but not set.")
+        self.model = model or DEFAULT_MODELS["openai"]
         self.api_url = "https://api.openai.com/v1/chat/completions"
         self.client = httpx.Client(timeout=10)
         logger.info(f"OpenAIEngine initialized with model: {model}")
@@ -36,10 +36,10 @@ class OpenAIEngine(BaseLLM):
             return reply.strip()
         except httpx.HTTPError as e:
             logger.error(f"OpenAI chat error: {e}\n")
-            raise
+            raise None
         except httpx.RequestError as e:
             logger.error(f"Request failed: {e}")
-            raise
+            raise None
 
     def summarize(self, text: str) -> str:
         prompt = f"Summarize the following text:\n\n{text}"
