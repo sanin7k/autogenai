@@ -28,6 +28,8 @@ cd autogenai
 pip install .
 ```
 
+---
+
 ## ⚙️ Configuration
 
 Create a .env file in your project root:
@@ -43,6 +45,8 @@ DEFAULT_GEMINI_MODEL=gemini-1.5-pro
 ```
 If a required API key is missing, APIMissingError will be raised at runtime.
 
+---
+
 ## 🚀 Usage (Python)
 ```python
 from autogenai.core.factory import LLMFactory
@@ -53,6 +57,8 @@ print(response)
 
 ```
 
+---
+
 ## 🧪 Testing
 
 Run all tests:
@@ -61,6 +67,8 @@ Run all tests:
 pytest
 ```
 Includes mocks for external calls and full coverage for OpenAIEngine, GeminiEngine, and factory.
+
+---
 
 ## 💻 CLI Usage
 
@@ -74,6 +82,8 @@ Or for Gemini specifically:
 ```bash
 autogenai chat "What's the capital of France?" --engine "gemini"
 ```
+
+---
 
 ## 📂 Project Structure
 
@@ -106,6 +116,8 @@ autogenai-sdk/
 
 ```
 
+---
+
 ## 📖 Error Handling
 
 **APIMissingError**
@@ -123,6 +135,8 @@ raise LLMResponseError("API failed", status_code=429, response_data={...})
 
 ```
 
+---
+
 ## 🔢 Semantic Versioning
 
 This SDK follows SemVer:
@@ -132,6 +146,8 @@ This SDK follows SemVer:
 
 Current version: 0.1.0
 
+---
+
 ## 🙌 Contributing
 
 1. Fork this repo
@@ -139,6 +155,8 @@ Current version: 0.1.0
 3. Commit changes (git commit -am 'add cool feature')
 4. Push to branch (git push origin feat/my-feature)
 5. Open a pull request 🚀
+
+---
 
 ## 📝 License
 MIT © 2025 Sanin K
