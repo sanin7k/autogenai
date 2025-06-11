@@ -25,7 +25,7 @@ class GeminiEngine(BaseLLM):
             return response.text.strip()
         except Exception as e:
             logger.error(f"Gemini chat error: {e}")
-            raise None
+            raise RuntimeError("Gemini API call failed") from e
 
     def summarize(self, text: str) -> str:
         prompt = f"Summarize the following text:\n\n{text}"

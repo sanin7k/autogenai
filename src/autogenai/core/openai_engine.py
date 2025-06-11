@@ -2,7 +2,7 @@ import httpx
 from autogenai.core.base import BaseLLM
 from autogenai.utils.logger import get_logger
 from autogenai.utils.config import get_env, DEFAULT_MODELS
-from autogenai.utils.errors import MissingAPIKeyError
+from autogenai.utils.errors import MissingAPIKeyError, LLMResponseError
 
 logger = get_logger("OpenAIEngine")
 
@@ -36,10 +36,9 @@ class OpenAIEngine(BaseLLM):
             return reply.strip()
         except httpx.HTTPError as e:
             logger.error(f"OpenAI chat error: {e}\n")
-            raise None
+            raise LLMResponseError(f"OpenAI API Error: {e}", status_code=e.response.status_code, response_data=e.response.json())
         except httpx.RequestError as e:
-            logger.error(f"Request failed: {e}")
-            raise None
+            raise LLMResponseError(f"OpenAI Request Failed: {e}")
 
     def summarize(self, text: str) -> str:
         prompt = f"Summarize the following text:\n\n{text}"

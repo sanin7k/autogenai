@@ -1,15 +1,25 @@
-import os
 import pytest
+from unittest.mock import patch
 from autogenai.core.openai_engine import OpenAIEngine
 
-@pytest.mark.skipif(not os.getenv("OPENAI_API_KEY"), reason="No API key set")
-def test_openai_chat():
-    engine = OpenAIEngine()
-    result = engine.chat("What is the capital of France?")
-    assert "Paris" in result
+@pytest.fixture
+def engine(monkeypatch):
+    monkeypatch.setenv("OPEN_API_KEY", "dummy")
+    return OpenAIEngine()
 
-@pytest.mark.skipif(not os.getenv("OPENAI_API_KEY"), reason="No API key set")
-def test_openai_summarize():
-    engine = OpenAIEngine()
-    result = engine.summarize("The Eiffel Tower is in Paris. It is a tourist attraction.")
-    assert "Eiffel Tower" in result
+@patch("autogenai.core.openai_engine.httpx.Client.post")
+def test_chat_success(mock_post, engine):
+    mock_post.return_value.status_code = 200
+    mock_post.return_value.json.return_value = {
+        "choices": [{"message": {"content": "Hello world!"}}]
+    }
+
+    result = engine.chat("Say hi")
+    assert result == "Hello world!"
+
+@patch("autogenai.core.openai_engine.httpx.Client.post")
+def test_chat_failure(mock_post, engine):
+    mock_post.side_effect = Exception("API down")
+    with pytest.raises(Exception) as exc_info:
+        engine.chat("Say hi")
+    assert "API down" in str(exc_info.value)
