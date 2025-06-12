@@ -25,7 +25,7 @@ pip install autogenai
 ```
 Or, from source:
 ```bash
-git clone https://github.com/sanin7k/autogenai-sdk.git
+git clone https://github.com/sanin7k/autogenai.git
 cd autogenai
 pip install .
 ```
@@ -146,7 +146,7 @@ This SDK follows SemVer:
 - MINOR – new features, backward-compatible
 - PATCH – bug fixes
 
-Current version: 0.1.0
+Current version: 0.1.1
 
 ---
 

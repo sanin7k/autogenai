@@ -1,11 +1,12 @@
 [project]
 name = "autogenai"
-version = "0.1.0"
+version = "0.1.1"
 description = "Early-stage unified SDK for OpenAI, Gemini and more"
 authors = [
     { name="Sanin K", email="dev.sanink@gmail.com"}
 ]
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
@@ -16,7 +17,6 @@ dependencies = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -24,7 +24,7 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sanin7k/autogenai-sdk" 
+Homepage = "https://github.com/sanin7k/autogenai.git" 
 
 [project.scripts]
 autogenai = "autogenai.cli:main"
